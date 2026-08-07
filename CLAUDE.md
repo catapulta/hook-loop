@@ -10,7 +10,12 @@ is and [docs/design.md](docs/design.md) for how the adapter is dimensioned.
   - Setup: `uv sync --extra dev`
   - Test geometry: `uv run --extra dev pytest`
   - View model in YACV: `uv run --extra view python show.py <part>` (serves on <http://localhost:32323>)
+  - Live-reloading viewer: `uv run --extra view python show.py <part> --watch`
   - Export STL: `uv run python show.py <part> --stl out/<part>.stl`
+
+Start the `--watch` viewer in the background at the start of a CAD session, then
+pause at each geometry change and ask for a look. A human read of the live model
+beats an agent's read of a screenshot. Don't batch changes into one review.
 
 See [docs/build123d.md](docs/build123d.md) for full CAD conventions, viewer
 usage, and sectioning guidance.

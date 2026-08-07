@@ -42,4 +42,4 @@ CEMENT_CLEARANCE = 0.4
 
 #: Boat-hook shaft diameter at the clip-on point. Telescoping hooks run
 #: 25-32 mm on their butt section; measure yours and change this one number.
-HOOK_SHAFT_D = 28.0
+HOOK_SHAFT_D = 25.4
