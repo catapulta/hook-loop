@@ -60,7 +60,7 @@ uv run --extra view python show.py hook_adapter             # inspect in YACV
 2. Deburr and dry-fit: the pipe should bottom out on the adapter's internal
    shoulder, which sets the insertion depth. The bore carries on through at the
    pipe's own inside diameter, so the assembled stick stays open end to end and
-   drains.
+   the rope runs through without catching on the adapter.
 3. Solvent-cement the joint. The socket bore carries 0.4 mm of clearance for
    the cement film, so it is a slip fit before gluing, not a press fit.
 4. Clip the saddle over the hook shaft. It should take a deliberate push to

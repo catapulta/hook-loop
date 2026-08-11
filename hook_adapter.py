@@ -51,11 +51,18 @@ minimum_socket_depth = PIPE.od * 1.4
 socket_wall = 2.4
 socket_od = socket_bore_d + 2 * socket_wall
 #: Internal stop setting insertion depth. A shoulder, not a cap: the bore
-#: continues through at the pipe's ID so the tube stays open end to end and
-#: water shipped down the stick drains instead of pooling in the head.
+#: continues through at the pipe's ID so the tube stays open end to end.
 shoulder_t = 3.0
-#: Through-hole past the shoulder, matching the pipe's own bore.
-drain_d = PIPE.id
+#: Rope pass-through past the shoulder. Exactly the pipe's own bore: the rope
+#: runs the length of the assembled stick, so the adapter must not narrow the
+#: channel anywhere. A smaller hole here would become the one place the rope
+#: bears on a printed edge, and it would chafe there every stroke.
+rope_bore_d = PIPE.id
+#: Break on both ends of the rope bore, so print error cannot leave a square
+#: corner in the rope's path. It eats into the shoulder face the pipe seats on,
+#: so it stays a fraction of that ring rather than a fixed size: a bigger pipe
+#: gets a bigger break, and a thin-walled one does not lose its seat.
+rope_break = (socket_bore_d - rope_bore_d) / 2 * 0.25
 
 # --- saddle: the clip that grips the hook shaft ---------------------------
 saddle_bore_d = HOOK_SHAFT_D + 0.6
@@ -183,9 +190,9 @@ def hook_adapter() -> Part:
             mode=Mode.SUBTRACT,
         )
 
-        # Drain through the shoulder, so the head is a tube rather than a cup.
+        # Rope channel through the shoulder, so the head is a tube, not a cup.
         Cylinder(
-            drain_d / 2,
+            rope_bore_d / 2,
             body_length,
             align=(None, None, None),
             mode=Mode.SUBTRACT,
@@ -211,7 +218,7 @@ def hook_adapter() -> Part:
         extrude(amount=saddle_length, mode=Mode.SUBTRACT)
 
         # Lead the pipe into the socket mouth. Selected by radius rather than by
-        # "smallest circle at Z=0", which is now the drain bore.
+        # "smallest circle at Z=0", which is now the rope bore.
         mouth = (
             part.edges()
             .filter_by(GeomType.CIRCLE)
@@ -219,6 +226,19 @@ def hook_adapter() -> Part:
             .filter_by(lambda e: abs(e.radius - socket_bore_d / 2) < 1e-6)
         )
         chamfer(mouth, lead_in)
+
+        # Break both ends of the rope bore. Holding the bore at exactly the pipe
+        # ID keeps the adapter out of the channel nominally, but a first layer
+        # printing tight would leave a square corner standing in the rope's
+        # path. The chamfer makes that a slope rather than an edge. Selected by
+        # radius for the same reason as the mouth above: at Z=0 the socket bore
+        # is also circular, and at the shoulder the bore changes diameter.
+        rope_mouths = (
+            part.edges()
+            .filter_by(GeomType.CIRCLE)
+            .filter_by(lambda e: abs(e.radius - rope_bore_d / 2) < 1e-6)
+        )
+        chamfer(rope_mouths, rope_break)
 
         # The lips need no end break of their own. Tapering has already run them
         # out to points, so there is no square corner left at either end for an

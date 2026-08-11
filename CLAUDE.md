@@ -66,4 +66,7 @@ usage, and sectioning guidance.
 - `is_valid` is a property on build123d 0.11.1, not a method.
 - Waist fillets are applied to the complete extrusion before the conical cuts.
 - The socket mouth chamfer is selected by matching `socket_bore_d`, not by
-  "smallest circle at Z=0": the drain bore is smaller and also lands at Z=0.
+  "smallest circle at Z=0": the rope bore is smaller and also lands at Z=0.
+- The rope runs the full length of the stick. `rope_bore_d` is exactly `PIPE.id`
+  so the adapter never becomes the narrowest point in the channel; anything
+  undersize takes the rope's chafe by itself. Don't "clean up" that equality.

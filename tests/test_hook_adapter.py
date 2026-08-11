@@ -8,7 +8,7 @@ still fails.
 import math
 
 import pytest
-from build123d import Plane, section
+from build123d import Plane, SortBy, section
 
 import hook_adapter as h
 from lib.pipe import PIPE
@@ -123,17 +123,49 @@ def test_saddle_does_not_overhang_the_sleeve(part):
 
 
 def test_shoulder_stops_the_pipe_without_capping_the_tube(part):
-    """The pipe seats on a shoulder, but the bore runs through and drains."""
+    """The pipe seats on a shoulder, but the bore runs through for the rope."""
     assert h.body_length - h.socket_depth == pytest.approx(h.shoulder_t)
 
     top = section(part, Plane.XY.offset(h.body_length - h.shoulder_t / 2)).faces()[0]
     bores = top.inner_wires()
     assert len(bores) == 1, "tube must stay open through the shoulder"
-    assert bores[0].bounding_box().size.X == pytest.approx(h.drain_d, abs=1e-3)
+    assert bores[0].bounding_box().size.X == pytest.approx(h.rope_bore_d, abs=1e-3)
 
     # The shoulder is a real stop: narrower than the socket, so the pipe lands
     # on it rather than sliding through.
-    assert h.drain_d < h.socket_bore_d
+    assert h.rope_bore_d < h.socket_bore_d
+
+
+def test_rope_bore_never_narrows_the_pipe(part):
+    """The rope bears on the pipe wall, never on a printed edge.
+
+    The rope runs the length of the assembled stick. If the adapter's bore were
+    any smaller than the pipe's, it would be the narrowest point in the channel
+    and would take the rope's wear by itself.
+    """
+    assert h.rope_bore_d == pytest.approx(PIPE.id, abs=1e-9)
+
+    top = section(part, Plane.XY.offset(h.body_length - h.shoulder_t / 2)).faces()[0]
+    measured = top.inner_wires()[0].bounding_box().size.X
+    assert measured >= PIPE.id - 1e-3
+
+
+def test_rope_bore_is_broken_at_both_ends(part):
+    """Neither end of the rope channel presents a square corner.
+
+    Sectioning just inside each end must find the bore already wider than
+    nominal, which is only true if a chamfer opened it out.
+    """
+    assert h.rope_break > 0
+
+    for z in (h.rope_break / 2, h.body_length - h.rope_break / 2):
+        face = section(part, Plane.XY.offset(z)).faces().sort_by(SortBy.AREA)[-1]
+        rope = min(w.bounding_box().size.X for w in face.inner_wires())
+        assert rope > h.rope_bore_d, f"square corner at z={z}"
+
+    # The break cannot consume the seat: the pipe still lands on a real ring.
+    seat = (h.socket_bore_d - h.rope_bore_d) / 2 - h.rope_break
+    assert seat > 1.0
 
 
 def test_bore_is_open_at_both_ends(part):

@@ -22,17 +22,22 @@ axis. The origin is the socket mouth at `Z=0`; the saddle opens toward `-Y`.
 | `minimum_socket_depth` | 1.4 × pipe OD | Solvent joints want at least one diameter of engagement |
 | `socket_wall` | 2.4 | Several perimeters at common nozzle widths |
 | `shoulder_t` | 3.0 | Sets a repeatable insertion depth |
-| `drain_d` | pipe ID | Through-bore past the shoulder |
+| `rope_bore_d` | pipe ID | Rope pass-through past the shoulder |
 
 The saddle taper sets the body length. The socket extends to a shoulder
 `shoulder_t` from the far end, giving at least `minimum_socket_depth` of pipe
 engagement. A `lead_in` chamfer at the mouth guides the pipe in.
 
 The shoulder is a stop, not a cap. The bore steps down to the pipe's own inside
-diameter and continues through, so the head is a tube end to end: the pipe
-bottoms out on the step, and water shipped down the stick drains rather than
-pooling in the head. The step is the only place the section changes along the
-length, and it adds material over material, so it does not overhang.
+diameter and continues through, so the head is a tube end to end and the rope
+runs the full length of the assembled stick.
+
+That step down is to exactly the pipe ID, and the equality is the requirement
+rather than a convenience. The rope bears on whatever is narrowest in the
+channel; if the adapter's bore were undersize it would be the sole contact and
+would chafe the rope every stroke. Held equal, the adapter presents no edge the
+pipe does not already present. The step is the only place the section changes
+along the length, and it adds material over material, so it does not overhang.
 
 ## Saddle
 
