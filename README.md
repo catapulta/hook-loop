@@ -24,7 +24,7 @@ Only the adapter is printed; the hook and the pipe are sourced.
 Every dimension derives from two measurements in `lib/pipe.py`:
 
 - `HOOK_SHAFT_D` — your boat hook's shaft diameter where the saddle clips on
-  (default 28 mm; telescoping hooks run 25–32 mm on the butt section).
+  (default 25.4 mm / 1 inch; telescoping hooks run 25–32 mm on the butt section).
 - `PIPE` — which schedule-40 pipe you're building the stick from
   (default 1/2", i.e. 21.34 mm OD).
 
