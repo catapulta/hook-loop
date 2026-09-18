@@ -57,7 +57,9 @@ def test_throat_is_narrower_than_shaft_so_it_snaps_on(mid_section):
 def test_saddle_grips_by_hoop_tension():
     from lib.pipe import HOOK_SHAFT_D
 
-    assert h.saddle_bore_d > HOOK_SHAFT_D, "bore must clear the shaft"
+    assert h.saddle_bore_d == pytest.approx(HOOK_SHAFT_D), (
+        "the open saddle should closely match the shaft"
+    )
     assert h.throat_w < HOOK_SHAFT_D, "throat must pinch the shaft to retain it"
 
 

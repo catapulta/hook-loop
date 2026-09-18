@@ -65,7 +65,7 @@ rope_bore_d = PIPE.id
 rope_break = (socket_bore_d - rope_bore_d) / 2 * 0.25
 
 # --- saddle: the clip that grips the hook shaft ---------------------------
-saddle_bore_d = HOOK_SHAFT_D + 0.6
+saddle_bore_d = HOOK_SHAFT_D
 #: Throat narrower than the shaft, so the lips spread to admit it and then hold
 #: by hoop tension. ~0.8x bore grips firmly while still pulling off one-handed.
 throat_w = saddle_bore_d * 0.80

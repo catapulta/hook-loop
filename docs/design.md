@@ -43,12 +43,12 @@ along the length, and it adds material over material, so it does not overhang.
 
 | Dimension | Value | Rationale |
 | --- | --- | --- |
-| `saddle_bore_d` | shaft + 0.6 | Slides freely along the shaft once seated |
-| `saddle_wall` | 1.543 | Coupled force/taper solution — see below |
+| `saddle_bore_d` | shaft diameter | The open saddle closely supports the seated shaft |
+| `saddle_wall` | 1.528 | Coupled force/taper solution — see below |
 | `throat_w` | 0.80 × bore | The retention feature — see below |
 | `saddle_offset` | tangent + `web_t` | Keeps the two tubes from meeting at a knife edge |
 | `saddle_hold_length` | 10.0 | Complete C between the conical end sweeps |
-| `saddle_length` | 105.79 | Total height from the coupled force/taper solution |
+| `saddle_length` | 103.84 | Total height from the coupled force/taper solution |
 
 ### Retention
 
@@ -76,13 +76,13 @@ shaft through.
   scale together and cancel. Whether the clip cracks is set by wall thickness
   and throat ratio alone — lengthening an overstressed saddle fixes nothing.
 
-At 40 N in ABS the production cone solves to a 1.543 mm wall and 105.79 mm
-physical height. Its stiffness-equivalent full-C length is 40.36 mm; the
+At 40 N in ABS the production cone solves to a 1.528 mm wall and 103.84 mm
+physical height. Its stiffness-equivalent full-C length is 39.77 mm; the
 new-part release prediction is 40.0 N, the settled prediction is 36.0 N, and
-the yield safety factor is 2.74.
+the yield safety factor is 2.71.
 
 A thicker saddle is a **more** brittle one, which is worth stating because it
-inverts the usual instinct. The lips must bend 2.9 mm either way to admit the
+inverts the usual instinct. The lips must bend 2.54 mm either way to admit the
 shaft, and bending stress at a fixed deflection rises with wall thickness. Wall
 thickness buys stiffness rather than stress margin; the coupled solver checks
 the resulting wall against yield after closing on the force target.
@@ -197,7 +197,7 @@ phi = pi/2
 
 The base and the early lip sweep remain part of the physical taper but are not
 included in effective gripping length. For the solved geometry, the cone takes
-33.27 mm of each 47.90 mm ramp to reach the equator; about 69% of each ramp has
+32.55 mm of each 46.92 mm ramp to reach the equator; about 69% of each ramp has
 no holding power.
 
 Slices beyond the equator act as curved springs in parallel. A slice ending at
@@ -263,20 +263,20 @@ outer lip radius, conical ramp height, and effective gripping length. With
 `Hhold` fixed, `conical_saddle_for_force` bisects on `t`; each candidate wall
 recomputes both conical ramps and evaluates `Frelease`.
 
-For ABS, a 26.0 mm bore, a throat at 0.80 times the bore, a 60° cone, and a
+For ABS, a 25.4 mm bore, a throat at 0.80 times the bore, a 60° cone, and a
 40 N new-part release target, the production part solves to:
 
 | Quantity | Solved value |
 | --- | ---: |
-| Wall thickness | 1.543 mm |
+| Wall thickness | 1.528 mm |
 | Complete-C hold | 10.00 mm |
-| Physical rise of each taper | 47.90 mm |
-| Total body height | 105.79 mm |
-| Equivalent length of each taper | 15.18 mm |
-| Total effective gripping length | 40.36 mm |
+| Physical rise of each taper | 46.92 mm |
+| Total body height | 103.84 mm |
+| Equivalent length of each taper | 14.88 mm |
+| Total effective gripping length | 39.77 mm |
 | New-part release force | 40.0 N |
 | Settled release force | 36.0 N |
-| Peak-stress safety factor | 2.74 |
+| Peak-stress safety factor | 2.71 |
 
 These are model predictions rather than measured forces. `ROOT_COMPLIANCE`
 is 1.3 and is the sole fitted structural term; it must be calibrated from a
