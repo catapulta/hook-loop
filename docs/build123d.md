@@ -12,6 +12,8 @@ uv run --extra view python show.py <part>            # launch interactive YACV v
 ```
 
 `show.py <module>` imports `<module>.py` and calls its same-named factory function, which returns a `build123d.Part`.
+Watch mode removes `out/<module>.stl` whenever a watched source changes, so the
+export directory cannot silently retain an obsolete printable model.
 
 ### YACV Viewer
 

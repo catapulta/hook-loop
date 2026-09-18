@@ -50,9 +50,12 @@ infill. PLA will work for a season but creeps in sun and heat.
 ```bash
 uv sync --extra dev
 uv run --extra dev pytest                                   # geometry checks
-uv run python show.py hook_adapter --stl out/adapter.stl    # export for slicing
-uv run --extra view python show.py hook_adapter             # inspect in YACV
+uv run python show.py hook_adapter --stl out/hook_adapter.stl  # export for slicing
+uv run --extra view python show.py hook_adapter --watch       # inspect and rebuild
 ```
+
+Watch mode removes the conventional `out/<part>.stl` export whenever source
+changes make it stale. Export again after the model is ready to slice.
 
 ## Assembly
 

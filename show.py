@@ -50,6 +50,16 @@ def source_stamp() -> dict[Path, float]:
     return stamp
 
 
+def invalidate_stl(module_name: str) -> Path | None:
+    """Remove the conventional export when its source model becomes stale."""
+    path = ROOT / "out" / f"{module_name}.stl"
+    try:
+        path.unlink()
+    except FileNotFoundError:
+        return None
+    return path
+
+
 def purge_project_modules() -> None:
     """Drop this project's modules so the next import rebuilds them cold.
 
@@ -133,6 +143,10 @@ def main() -> None:
                 if current == stamp:
                     continue
                 stamp = current
+
+                stale_stl = invalidate_stl(args.part)
+                if stale_stl is not None:
+                    print(f"  removed stale {stale_stl.relative_to(ROOT)}", flush=True)
 
                 # Showing under the same name replaces the model in every
                 # connected frontend, so the open tab updates without a reload.

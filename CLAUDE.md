@@ -16,6 +16,8 @@ is and [docs/design.md](docs/design.md) for how the adapter is dimensioned.
 Start the `--watch` viewer in the background at the start of a CAD session, then
 pause at each geometry change and ask for a look. A human read of the live model
 beats an agent's read of a screenshot. Don't batch changes into one review.
+Watch mode removes `out/<part>.stl` as soon as a source change makes it stale;
+only an explicit `--stl` export creates a printable artifact.
 
 See [docs/build123d.md](docs/build123d.md) for full CAD conventions, viewer
 usage, and sectioning guidance.
